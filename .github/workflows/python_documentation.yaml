@@ -35,15 +35,6 @@ jobs:
         with:
           doxyfile-path: './Doxyfile'
 
-      - name: Verify docs structure
-        run: |
-          echo "Contents of docs directory:"
-          ls -la docs/
-          echo "Contents of docs/python directory:"
-          ls -la docs/python/ || echo "python directory not found"
-          echo "Contents of docs/cpp directory:"
-          ls -la docs/cpp/ || echo "cpp directory not found"
-
       - uses: actions/upload-pages-artifact@v3
         with:
           path: docs/
