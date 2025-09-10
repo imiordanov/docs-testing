@@ -25,10 +25,10 @@ jobs:
         run: uv sync --reinstall
 
       - name: Create docs directory structure
-        run: mkdir -p docs/cpp
+        run: mkdir -p docs/python docs/cpp
 
-      - name: Build Python docs to temporary location
-        run: uv run pdoc calculator.py -o temp_docs
+      - name: Build Python docs
+        run: uv run pdoc calculator.py -o docs/python
 
       - name: Build C++ docs with Doxygen
         uses: mattnotmitt/doxygen-action@v1
@@ -36,13 +36,12 @@ jobs:
           doxyfile-path: './Doxyfile'
           working-directory: '.'
 
-      - name: Copy Python docs to final location
-        run: cp temp_docs/calculator.html docs/
-
       - name: Verify docs structure
         run: |
           echo "Contents of docs directory:"
           ls -la docs/
+          echo "Contents of docs/python directory:"
+          ls -la docs/python/ || echo "python directory not found"
           echo "Contents of docs/cpp directory:"
           ls -la docs/cpp/ || echo "cpp directory not found"
 
