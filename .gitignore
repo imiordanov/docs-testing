@@ -181,7 +181,3 @@ Desktop.ini
 *.swp
 *.swo
 
-# Local documentation build (we'll generate on GitHub)
-docs/
-doc/
-_build/
