@@ -24,14 +24,27 @@ jobs:
       - name: Install Python Dependencies
         run: uv sync --reinstall
 
-      - name: Build Python docs
-        run: uv run pdoc calculator.py -o docs
+      - name: Create temporary docs directory
+        run: mkdir -p temp_docs
+
+      - name: Build Python docs to temporary location
+        run: uv run pdoc calculator.py -o temp_docs
 
       - name: Build C++ docs with Doxygen
         uses: mattnotmitt/doxygen-action@v1
         with:
           doxyfile-path: './Doxyfile'
           working-directory: '.'
+
+      - name: Copy Python docs to final location
+        run: cp temp_docs/calculator.html docs/
+
+      - name: Verify docs structure
+        run: |
+          echo "Contents of docs directory:"
+          ls -la docs/
+          echo "Contents of docs/cpp directory:"
+          ls -la docs/cpp/ || echo "cpp directory not found"
 
       - uses: actions/upload-pages-artifact@v3
         with:
